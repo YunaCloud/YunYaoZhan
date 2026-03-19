@@ -99,6 +99,8 @@ a { color: inherit; }
   align-items: center;
 }
 .nav-links a {
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
   color: var(--muted);
 }
@@ -435,6 +437,9 @@ pre code {
     gap: 10px;
   }
   .nav-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     padding: 10px 12px;
     border-radius: 12px;
@@ -920,9 +925,22 @@ def layout(title: str, body: str, home_href: str, archive_href: str, nav_right: 
     </div>
   </div>
   <script>
+    const resetPageState = () => {{
+      document.body.classList.remove("is-transitioning");
+      document.body.classList.remove("is-entering");
+    }};
+
     document.body.classList.add("is-entering");
     window.requestAnimationFrame(() => {{
       document.body.classList.remove("is-entering");
+    }});
+
+    window.addEventListener("pageshow", () => {{
+      resetPageState();
+    }});
+
+    window.addEventListener("pagehide", () => {{
+      document.body.classList.remove("is-transitioning");
     }});
 
     const internalLinks = Array.from(document.querySelectorAll('a[href]')).filter((link) => {{
@@ -989,9 +1007,22 @@ def index_layout(title: str, body: str) -> str:
     </div>
   </div>
   <script>
+    const resetPageState = () => {{
+      document.body.classList.remove("is-transitioning");
+      document.body.classList.remove("is-entering");
+    }};
+
     document.body.classList.add("is-entering");
     window.requestAnimationFrame(() => {{
       document.body.classList.remove("is-entering");
+    }});
+
+    window.addEventListener("pageshow", () => {{
+      resetPageState();
+    }});
+
+    window.addEventListener("pagehide", () => {{
+      document.body.classList.remove("is-transitioning");
     }});
 
     const internalLinks = Array.from(document.querySelectorAll('a[href]')).filter((link) => {{
