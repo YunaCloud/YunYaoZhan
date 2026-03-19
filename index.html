@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yunayu | Personal Website</title>
+  <style>
+    :root {
+      --bg: #efe6d7;
+      --bg-deep: #dcc8b6;
+      --paper: rgba(255, 250, 244, 0.72);
+      --paper-strong: rgba(255, 248, 238, 0.88);
+      --ink: #1f1e1a;
+      --muted: #6e675e;
+      --accent: #ba6d45;
+      --accent-deep: #7f4326;
+      --teal: #5f7c7f;
+      --line: rgba(31, 30, 26, 0.1);
+      --shadow: 0 28px 90px rgba(88, 58, 40, 0.16);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --wrap: 1160px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Georgia", "Times New Roman", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(186, 109, 69, 0.26), transparent 28%),
+        radial-gradient(circle at 100% 10%, rgba(95, 124, 127, 0.18), transparent 24%),
+        linear-gradient(180deg, #f7f1e8 0%, #efe4d7 48%, #ebdfd5 100%);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      border-radius: 999px;
+      filter: blur(12px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      width: 320px;
+      height: 320px;
+      top: -120px;
+      right: -60px;
+      background: rgba(186, 109, 69, 0.14);
+    }
+
+    body::after {
+      width: 260px;
+      height: 260px;
+      left: -70px;
+      bottom: 10%;
+      background: rgba(95, 124, 127, 0.12);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(var(--wrap), calc(100vw - 32px));
+      margin: 18px auto 28px;
+    }
+
+    .shell {
+      border: 1px solid rgba(255, 255, 255, 0.44);
+      border-radius: 40px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      transform-origin: left center;
+      transform: scaleX(0);
+      background: linear-gradient(90deg, var(--accent), var(--teal));
+      z-index: 10;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      padding: 22px 28px;
+      border-bottom: 1px solid rgba(31, 30, 26, 0.06);
+      background: rgba(255, 252, 248, 0.38);
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(16px);
+      z-index: 3;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, #d79b74, #8e4f33);
+      color: #fff8f2;
+      font-size: 1rem;
+      letter-spacing: 0.1em;
+      box-shadow: 0 10px 22px rgba(127, 67, 38, 0.22);
+    }
+
+    .brand-text strong,
+    .brand-text span {
+      display: block;
+    }
+
+    .brand-text strong {
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+
+    .brand-text span {
+      color: var(--muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-links a {
+      position: relative;
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.96rem;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 100%;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--teal));
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.25s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.is-active {
+      color: var(--ink);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.is-active::after {
+      transform: scaleX(1);
+    }
+
+    .nav-links .pill {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(31, 30, 26, 0.92);
+      color: #fff8f2;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      padding: 34px 28px 18px;
+    }
+
+    .panel {
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      border-radius: var(--radius-xl);
+      background: rgba(255, 251, 246, 0.58);
+      padding: 30px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      background: rgba(186, 109, 69, 0.12);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      margin-top: 18px;
+      font-size: clamp(3.1rem, 7vw, 6rem);
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      font-weight: 600;
+    }
+
+    .hero p {
+      margin-top: 20px;
+      max-width: 38rem;
+      color: var(--muted);
+      font-size: 1.06rem;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 20px;
+      min-width: 154px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button.primary {
+      background: var(--ink);
+      color: #fff8f2;
+      box-shadow: 0 14px 30px rgba(31, 30, 26, 0.18);
+    }
+
+    .button.secondary {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.45);
+    }
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .stat {
+      padding: 18px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(31, 30, 26, 0.06);
+    }
+
+    .stat strong,
+    .stat span {
+      display: block;
+    }
+
+    .stat strong {
+      font-size: 1.45rem;
+      font-weight: 600;
+    }
+
+    .stat span {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .art {
+      position: relative;
+      min-height: 560px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0)),
+        linear-gradient(160deg, #d7b59b 0%, #c27c57 52%, #754532 100%);
+    }
+
+    .art-sun {
+      position: absolute;
+      top: 52px;
+      right: 52px;
+      width: 122px;
+      height: 122px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #fff9dc, #f2c66c);
+      box-shadow: 0 0 50px rgba(255, 223, 151, 0.46);
+    }
+
+    .art-curve {
+      position: absolute;
+      inset-inline: 0;
+      border-radius: 50% 50% 0 0;
+    }
+
+    .art-curve.one {
+      height: 210px;
+      bottom: 0;
+      background: #5e3327;
+    }
+
+    .art-curve.two {
+      height: 170px;
+      bottom: 64px;
+      background: #8b563d;
+      opacity: 0.92;
+    }
+
+    .art-curve.three {
+      height: 140px;
+      bottom: 120px;
+      background: #b97957;
+      opacity: 0.9;
+    }
+
+    .portrait {
+      position: absolute;
+      left: 34px;
+      right: 34px;
+      bottom: 28px;
+      padding: 22px;
+      border-radius: 26px;
+      background: rgba(255, 246, 238, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      backdrop-filter: blur(8px);
+      color: #fff8f3;
+    }
+
+    .portrait h2 {
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+    }
+
+    .portrait p {
+      color: rgba(255, 248, 243, 0.86);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    .section {
+      padding: 18px 28px 34px;
+      scroll-margin-top: 100px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      line-height: 1;
+    }
+
+    .section-title p {
+      max-width: 38rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .about-grid,
+    .services,
+    .projects,
+    .contact-grid,
+    .blog-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .about-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .card {
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: var(--paper-strong);
+      border: 1px solid rgba(31, 30, 26, 0.06);
+      box-shadow: 0 14px 32px rgba(88, 58, 40, 0.05);
+      transition: transform 0.22s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(127, 67, 38, 0.14);
+      box-shadow: 0 22px 46px rgba(88, 58, 40, 0.1);
+    }
+
+    .card h3 {
+      font-size: 1.35rem;
+      margin-bottom: 14px;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .tag-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(186, 109, 69, 0.12);
+      color: var(--accent-deep);
+      font-size: 0.88rem;
+    }
+
+    .services {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .service-card {
+      min-height: 230px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .service-card .index {
+      color: var(--accent);
+      font-size: 0.86rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .service-card h3 {
+      margin-bottom: 10px;
+    }
+
+    .projects {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+
+    .project-large,
+    .project-stack {
+      min-height: 100%;
+    }
+
+    .project-large {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top left, rgba(95, 124, 127, 0.18), transparent 28%),
+        linear-gradient(145deg, #f7efe6, #f0dfce);
+    }
+
+    .project-large::after {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      right: -60px;
+      bottom: -60px;
+      border-radius: 50%;
+      background: rgba(186, 109, 69, 0.16);
+    }
+
+    .project-meta {
+      display: inline-flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 16px 0;
+    }
+
+    .project-meta span {
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .project-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .blog-grid {
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: start;
+    }
+
+    .featured-post {
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top right, rgba(186, 109, 69, 0.16), transparent 25%),
+        linear-gradient(145deg, #fbf5ed, #f1e2d2);
+    }
+
+    .post-kicker {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(95, 124, 127, 0.12);
+      color: var(--teal);
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .post-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      color: var(--accent-deep);
+      text-decoration: none;
+      font-size: 0.96rem;
+    }
+
+    .post-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .post-card {
+      text-decoration: none;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .post-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(88, 58, 40, 0.08);
+    }
+
+    .post-meta-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .mini-note {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(31, 30, 26, 0.08);
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 18px;
+      padding: 18px 0;
+      border-top: 1px solid rgba(31, 30, 26, 0.08);
+    }
+
+    .timeline-item:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .timeline-item time {
+      color: var(--accent-deep);
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .timeline-item h3 {
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .timeline-item p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .quote-card {
+      background:
+        linear-gradient(160deg, rgba(127, 67, 38, 0.96), rgba(82, 97, 99, 0.92));
+      color: #fff8f3;
+    }
+
+    .quote-card p {
+      color: rgba(255, 248, 243, 0.86);
+    }
+
+    .contact-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .contact-item {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.56);
+      border: 1px solid rgba(31, 30, 26, 0.06);
+    }
+
+    .contact-item strong,
+    .contact-item span {
+      display: block;
+    }
+
+    .contact-item strong {
+      font-size: 0.88rem;
+      color: var(--accent-deep);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+
+    .contact-item span {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .footer {
+      padding: 8px 28px 30px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-1 { transition-delay: 0.08s; }
+    .delay-2 { transition-delay: 0.16s; }
+    .delay-3 { transition-delay: 0.24s; }
+    .delay-4 { transition-delay: 0.32s; }
+    .delay-5 { transition-delay: 0.4s; }
+
+    .back-to-top {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      width: 52px;
+      height: 52px;
+      border: 0;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(31, 30, 26, 0.92);
+      color: #fff8f2;
+      box-shadow: 0 18px 32px rgba(31, 30, 26, 0.22);
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 6;
+    }
+
+    .back-to-top.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .about-grid,
+      .projects,
+      .contact-grid,
+      .services,
+      .blog-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .art {
+        min-height: 420px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(var(--wrap), calc(100vw - 18px));
+        margin-top: 10px;
+      }
+
+      .shell {
+        border-radius: 26px;
+      }
+
+      .nav,
+      .hero,
+      .section,
+      .footer {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: clamp(2.5rem, 13vw, 4.2rem);
+      }
+
+      .back-to-top {
+        right: 16px;
+        bottom: 16px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+  <div class="page">
+    <div class="shell">
+      <header class="nav">
+        <a class="brand" href="#top">
+          <div class="brand-mark">Y</div>
+          <div class="brand-text">
+            <strong>Yunayu</strong>
+            <span>Personal Website</span>
+          </div>
+        </a>
+        <nav class="nav-links">
+          <a href="#about">About</a>
+          <a href="#services">Services</a>
+          <a href="#acm">ACM</a>
+          <a href="#projects">Projects</a>
+          <a href="#journal">Journal</a>
+          <a href="#story">Story</a>
+          <a class="pill" href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="panel reveal">
+            <span class="eyebrow">Creative Portfolio</span>
+            <h1>你好，我是 Yunayu。<br>我把想法做成温柔又清晰的网页。</h1>
+            <p>
+              这是一个可以继续扩展的个人网站首页。现在先用偏作品集和个人品牌的方向来搭：有自我介绍、能力说明、精选项目、经历时间线和联系区块，后面你可以很自然地替换成自己的真实信息。
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="generated/abc.html">进入题库</a>
+              <a class="button secondary" href="#journal">进入博客</a>
+            </div>
+            <div class="quick-stats">
+              <div class="stat">
+                <strong>03</strong>
+                <span>核心方向：算法竞赛、题解整理、内容展示</span>
+              </div>
+              <div class="stat">
+                <strong>12+</strong>
+                <span>可扩展模块：题解、代码、文章、归档、博客</span>
+              </div>
+              <div class="stat">
+                <strong>1</strong>
+                <span>个人主页起步，后面可继续长成完整 ACM 站点</span>
+              </div>
+            </div>
+          </div>
+
+          <aside class="panel art reveal delay-1">
+            <div class="art-sun"></div>
+            <div class="art-curve three"></div>
+            <div class="art-curve two"></div>
+            <div class="art-curve one"></div>
+            <div class="portrait">
+              <h2>Quietly Bold</h2>
+              <p>
+                我喜欢做有呼吸感的页面: 留白、排版、层次和一点点情绪，不吵闹，但会让人记住。
+              </p>
+            </div>
+          </aside>
+        </section>
+
+        <section class="section" id="about">
+          <div class="section-title reveal">
+            <h2>About Me</h2>
+            <p>如果你把这里换成真实信息，这一块会是访客最快理解你的地方: 你是谁、你擅长什么、你的风格是什么。</p>
+          </div>
+          <div class="about-grid">
+            <article class="card reveal delay-1">
+              <h3>我正在做什么</h3>
+              <p>
+                我专注于把零散的想法整理成有结构的线上表达。无论是个人主页、作品集、简历站，还是一个轻量的小品牌页面，我都希望它既好看，也好读，还能准确传达气质。
+              </p>
+              <div class="tag-row">
+                <span class="tag">Personal Branding</span>
+                <span class="tag">Landing Page</span>
+                <span class="tag">Visual Storytelling</span>
+              </div>
+            </article>
+            <article class="card reveal delay-2">
+              <h3>我希望别人记住我什么</h3>
+              <p>
+                比起堆很多功能，我更在意整体感觉是不是成立。一个好的个人网站，不只是资料集合，而是你在线上的第一印象。它应该让人感到专业、舒服，也带一点属于你的独特味道。
+              </p>
+              <div class="tag-row">
+                <span class="tag">Elegant Layout</span>
+                <span class="tag">Warm Palette</span>
+                <span class="tag">Clear Structure</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="services">
+          <div class="section-title reveal">
+            <h2>What I Do</h2>
+            <p>这里先帮你放成三个服务方向，之后可以改成你的专业能力，比如摄影、插画、开发、写作、视频、咨询都可以。</p>
+          </div>
+          <div class="services">
+            <article class="card service-card reveal delay-1">
+              <div>
+                <div class="index">01 / Identity</div>
+                <h3>个人品牌主页</h3>
+                <p>适合介绍你是谁、做什么、如何联系你。结构清楚，适合放在社交平台主页或名片链接里。</p>
+              </div>
+              <div class="tag-row">
+                <span class="tag">Intro</span>
+                <span class="tag">Profile</span>
+              </div>
+            </article>
+            <article class="card service-card reveal delay-2">
+              <div>
+                <div class="index">02 / Portfolio</div>
+                <h3>作品集展示</h3>
+                <p>把作品按主题、年份或项目整理出来，帮助访客快速理解你的审美、方法和完成度。</p>
+              </div>
+              <div class="tag-row">
+                <span class="tag">Case Study</span>
+                <span class="tag">Gallery</span>
+              </div>
+            </article>
+            <article class="card service-card reveal delay-3">
+              <div>
+                <div class="index">03 / Story</div>
+                <h3>内容与经历表达</h3>
+                <p>用时间线、精选段落和视觉模块，让访客不只是看到资料，而是感受到你的成长轨迹。</p>
+              </div>
+              <div class="tag-row">
+                <span class="tag">Timeline</span>
+                <span class="tag">Narrative</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="acm">
+          <div class="section-title reveal">
+            <h2>ACM Archive</h2>
+            <p>这一块专门给你的算法竞赛内容。题解和代码会整理成题库列表，每道题可以单独点进去看 Markdown 思路和 C++ 实现。</p>
+          </div>
+          <div class="projects">
+            <article class="card project-large reveal delay-1">
+              <span class="eyebrow">Competitive Programming</span>
+              <h3 style="margin-top: 16px; font-size: 2rem;">把散落的题解和代码，变成能长期复习的个人题库。</h3>
+              <p style="margin-top: 14px;">
+                我已经给这个站接上了一套静态题库结构。后面你只要把 `md` 放到 `content/notes/`，把 `cpp` 放到 `content/code/`，同名文件就会自动配成一条题目记录，并生成详情页。
+              </p>
+              <div class="project-meta">
+                <span>Markdown Editorial</span>
+                <span>C++ Solution</span>
+                <span>Static Pages</span>
+              </div>
+              <p style="max-width: 36rem;">
+                现在已经改成了更适合你当前目录的“按比赛编号归档”结构，点进去就能直接按 042、043 这种场次浏览。
+              </p>
+              <div class="hero-actions" style="margin-top: 22px;">
+                <a class="button primary" href="generated/abc.html">打开比赛列表</a>
+              </div>
+            </article>
+            <div class="project-stack">
+              <article class="card reveal delay-2">
+                <h3>推荐目录</h3>
+                <p>`ABC板刷/042/` 会自动对应 `ABC板刷/云遥栈/042.md`，按比赛编号聚合，不要求每一题都同时有题解和代码。</p>
+              </article>
+              <article class="card reveal delay-3">
+                <h3>适合继续扩展</h3>
+                <p>后面还可以继续加标签筛选、比赛目录、题号索引、OJ 分类，甚至把 ABC / ARC / AGC 分开整理。</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="projects">
+          <div class="section-title reveal">
+            <h2>Selected Projects</h2>
+            <p>下面这些是示意内容，已经按个人网站的语气写好。你以后只需要替换标题、简介和链接，就能变成真正的作品区。</p>
+          </div>
+          <div class="projects">
+            <article class="card project-large reveal delay-1">
+              <span class="eyebrow">Featured Work</span>
+              <h3 style="margin-top: 16px; font-size: 2rem;">The Quiet Portfolio</h3>
+              <p style="margin-top: 14px;">
+                一个强调情绪与排版的个人主页概念，使用低饱和暖色、杂志感分区和柔和动效，让访问者在几秒钟内就能理解站点主人的气质。
+              </p>
+              <div class="project-meta">
+                <span>Branding</span>
+                <span>Web Design</span>
+                <span>Single Page</span>
+              </div>
+              <p style="max-width: 36rem;">
+                适合自由职业者、内容创作者、设计类个人站，也很适合作为你现在这个站继续往下发展的基底。
+              </p>
+            </article>
+            <div class="project-stack">
+              <article class="card reveal delay-2">
+                <h3>Mini Journal Page</h3>
+                <p>把日常记录、短文和灵感卡片做成一个有统一气质的页面，适合想展示思考和生活片段的人。</p>
+              </article>
+              <article class="card reveal delay-3">
+                <h3>Visual Resume</h3>
+                <p>比传统简历更柔和、更容易留下印象，适合放教育背景、技能、项目经历和联系方式。</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="journal">
+          <div class="section-title reveal">
+            <h2>Journal</h2>
+            <p>这一块会让它更像个人 blog 首页。现在先做成带跳转感的文章入口，你之后可以继续拆成真实文章页面。</p>
+          </div>
+          <div class="blog-grid">
+            <article class="card featured-post reveal delay-1" id="post-featured">
+              <span class="post-kicker">Latest Entry</span>
+              <h3 style="margin-top: 16px; font-size: 2rem;">从一个空文件夹开始，搭出自己的线上空间</h3>
+              <p style="margin-top: 14px;">
+                个人网站最迷人的地方，不在于一开始就很完整，而在于它可以慢慢长出你的语言、审美和生活痕迹。这个页面就是那种“还会继续更新”的起点。
+              </p>
+              <div class="project-meta">
+                <span>March 19, 2026</span>
+                <span>5 min read</span>
+                <span>Personal Notes</span>
+              </div>
+              <p>
+                你可以把这里当成置顶文章摘要，点进去跳到全文区，或者以后直接换成真正的文章链接。
+              </p>
+              <a class="post-link" href="#post-detail">阅读全文 →</a>
+            </article>
+
+            <div class="post-list">
+              <a class="card post-card reveal delay-2" href="#post-detail">
+                <div class="post-meta-line">
+                  <span>Essay</span>
+                  <span>4 min read</span>
+                </div>
+                <h3>我想要的网页，不只是“能看”</h3>
+                <p>记录为什么我更在意气质、阅读节奏和视觉呼吸感，而不是只把信息堆满整个屏幕。</p>
+              </a>
+
+              <a class="card post-card reveal delay-3" href="#post-archive">
+                <div class="post-meta-line">
+                  <span>Journal</span>
+                  <span>2 min read</span>
+                </div>
+                <h3>最近想继续加上的内容清单</h3>
+                <p>头像、文章页、作品大图、一个真正能收到留言的联系表单，还有更完整的归档页。</p>
+              </a>
+
+              <a class="card post-card reveal delay-4" href="#contact">
+                <div class="post-meta-line">
+                  <span>Update</span>
+                  <span>1 min read</span>
+                </div>
+                <h3>如果你也喜欢这种风格</h3>
+                <p>这个入口可以放合作说明、委托信息，或者作为“关于这个站”的小短文入口。</p>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" id="story">
+          <div class="section-title reveal">
+            <h2>Story & Timeline</h2>
+            <p>如果你以后想把个人经历写得更完整，这一块就很好用。它既能像简历，也能比简历更有人味。</p>
+          </div>
+          <div class="about-grid">
+            <article class="card reveal delay-1">
+              <div class="timeline">
+                <div class="timeline-item">
+                  <time>2024</time>
+                  <div>
+                    <h3>开始认真搭自己的线上空间</h3>
+                    <p>从一个空文件夹出发，逐步建立属于自己的视觉风格、作品表达方式和信息结构。</p>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <time>2025</time>
+                  <div>
+                    <h3>整理作品与内容方向</h3>
+                    <p>把原本分散在不同平台上的内容重新组合，让主页成为一个更统一、更完整的入口。</p>
+                  </div>
+                </div>
+                <div class="timeline-item">
+                  <time>Next</time>
+                  <div>
+                    <h3>继续扩展成完整网站</h3>
+                    <p>加入独立项目页、文章页面、相册模块，甚至部署上线，变成真正可分享的个人站点。</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="card quote-card reveal delay-2">
+              <h3>一句适合放在个人网站里的自我描述</h3>
+              <p style="margin-top: 16px; font-size: 1.18rem; line-height: 1.8;">
+                “我喜欢把模糊的想法整理成清晰、温柔而有力量的表达。”
+              </p>
+              <p style="margin-top: 18px;">
+                你后面可以把这一段换成你自己的签名句，效果会很好。它很适合放在首页中段或者页脚前，像一个气质总结。
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="post-detail">
+          <div class="section-title reveal">
+            <h2>Featured Post</h2>
+            <p>这里模拟 blog 的文章正文区。现在还是单页，但已经有“从卡片跳到正文”的阅读路径了。</p>
+          </div>
+          <div class="about-grid">
+            <article class="card reveal delay-1">
+              <div class="post-meta-line">
+                <span>March 19, 2026</span>
+                <span>By Yunayu</span>
+              </div>
+              <h3>从一个空文件夹开始，搭出自己的线上空间</h3>
+              <p style="margin-top: 14px;">
+                一开始只有一个空目录的时候，网站还没有内容，也没有风格，但那种“可以慢慢长成自己的东西”的感觉很特别。于是先从一个页面开始，确定颜色、排版、呼吸感，再一点一点加上关于我、作品、文章和联系。
+              </p>
+              <p style="margin-top: 14px;">
+                对我来说，个人 blog 不只是发布内容的地方，它更像是一个公开的笔记本，也是访客认识我的方式。所以它不一定要很复杂，但最好有温度，有节奏，也有一点会让人停下来看的细节。
+              </p>
+              <p class="mini-note">
+                以后你可以把这一整块拆成独立文章页，比如 `post-1.html`，然后让上面的文章卡片真正跳过去。
+              </p>
+            </article>
+            <article class="card reveal delay-2" id="post-archive">
+              <h3>Archive Preview</h3>
+              <p>
+                你也可以继续做一个文章归档页，按月份或主题整理内容。这样整个网站就会更像一个在持续更新的个人 blog，而不仅仅是静态作品集。
+              </p>
+              <div class="tag-row">
+                <span class="tag">Writing</span>
+                <span class="tag">Notes</span>
+                <span class="tag">Archive</span>
+                <span class="tag">Reading List</span>
+              </div>
+              <p class="mini-note">
+                如果你想，我下一步可以直接帮你加 `blog.html` 和 2 到 3 篇独立文章页面。
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" id="contact">
+          <div class="section-title reveal">
+            <h2>Contact</h2>
+            <p>我先放一套占位内容，让这个页面看起来已经完整。你把邮箱、社交账号和一句留言换成自己的信息就可以直接用了。</p>
+          </div>
+          <div class="contact-grid">
+            <article class="card reveal delay-1">
+              <h3>Let's make something calm and beautiful.</h3>
+              <p style="margin-top: 14px;">
+                如果你喜欢这种有气质、不过度张扬、但细节很完整的网页风格，这里可以作为你的个人网站起点。
+              </p>
+              <div class="contact-list">
+                <div class="contact-item">
+                  <strong>Email</strong>
+                  <span>hello@yunayu.studio</span>
+                </div>
+                <div class="contact-item">
+                  <strong>Instagram</strong>
+                  <span>@yunayu.notes</span>
+                </div>
+                <div class="contact-item">
+                  <strong>Location</strong>
+                  <span>Shanghai / Remote</span>
+                </div>
+              </div>
+            </article>
+            <article class="card reveal delay-2">
+              <h3>下一步可以继续加什么</h3>
+              <p style="margin-top: 14px;">
+                这个版本已经像一个完整首页了。接下来很自然的升级路线是：加头像或照片、加入真实项目图片、把按钮接到你的社交账号，再拆成多个独立页面。
+              </p>
+              <div class="tag-row">
+                <span class="tag">Blog Page</span>
+                <span class="tag">Project Detail</span>
+                <span class="tag">Photo Gallery</span>
+                <span class="tag">Real Links</span>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>Built as a soft, editable personal website starter.</span>
+        <span>Yunayu Studio, 2026</span>
+      </footer>
+    </div>
+  </div>
+  <button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">↑</button>
+  <script>
+    const progressBar = document.getElementById("progressBar");
+    const backToTop = document.getElementById("backToTop");
+    const reveals = document.querySelectorAll(".reveal");
+    const sections = Array.from(document.querySelectorAll("main section[id]"));
+    const navLinks = Array.from(document.querySelectorAll(".nav-links a"));
+
+    const updateScrollUI = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+
+      progressBar.style.transform = "scaleX(" + progress + ")";
+      backToTop.classList.toggle("is-visible", scrollTop > 520);
+    };
+
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle("is-visible", entry.isIntersecting);
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -4% 0px" }
+    );
+
+    reveals.forEach((item) => sectionObserver.observe(item));
+
+    const navObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          navLinks.forEach((link) => {
+            const isMatch = link.getAttribute("href") === "#" + entry.target.id;
+            link.classList.toggle("is-active", isMatch);
+          });
+        });
+      },
+      { threshold: 0.45, rootMargin: "-20% 0px -45% 0px" }
+    );
+
+    sections.forEach((section) => navObserver.observe(section));
+
+    backToTop.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    window.addEventListener("scroll", updateScrollUI, { passive: true });
+    updateScrollUI();
+  </script>
+</body>
+</html>

@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AtCoder Beginner Contest 046 | Yunayu ABC</title>
+  <style>
+:root {
+  --bg: #f7f1e9;
+  --paper: #fffaf4;
+  --paper-soft: #f6ede2;
+  --ink: #1f1e1a;
+  --muted: #6f675f;
+  --accent: #b56a45;
+  --teal: #5f7c7f;
+  --line: rgba(31, 30, 26, 0.1);
+  --shadow: 0 22px 60px rgba(72, 52, 40, 0.12);
+  --radius-lg: 28px;
+  --radius-md: 18px;
+  --wrap: 1120px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "Georgia", "Times New Roman", serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(181, 106, 69, 0.18), transparent 28%),
+    radial-gradient(circle at top right, rgba(95, 124, 127, 0.12), transparent 24%),
+    linear-gradient(180deg, #fbf6ef 0%, #f2e7d9 100%);
+}
+a { color: inherit; }
+.wrap { width: min(var(--wrap), calc(100vw - 28px)); margin: 20px auto 32px; }
+.shell {
+  border: 1px solid rgba(255, 255, 255, 0.48);
+  border-radius: 34px;
+  background: rgba(255, 250, 244, 0.76);
+  backdrop-filter: blur(14px);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.shell > * { position: relative; }
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 28px;
+  border-bottom: 1px solid rgba(31, 30, 26, 0.06);
+  background: rgba(255, 250, 244, 0.82);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 4;
+}
+.brand {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(145deg, #d79b74, #8e4f33);
+  color: #fff8f2;
+}
+.brand-text strong,
+.brand-text span { display: block; }
+.brand-text strong { font-size: 1rem; }
+.brand-text span {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.nav-links {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.nav-links a {
+  text-decoration: none;
+  color: var(--muted);
+}
+.pill {
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: #fff8f2 !important;
+}
+.hero {
+  padding: 30px 28px 20px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 20px;
+  align-items: start;
+}
+.card {
+  padding: 26px;
+  border-radius: var(--radius-lg);
+  background: rgba(255, 251, 246, 0.84);
+  border: 1px solid rgba(31, 30, 26, 0.06);
+  box-shadow: 0 10px 30px rgba(72, 52, 40, 0.05);
+}
+.eyebrow {
+  display: inline-flex;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7f4326;
+  background: rgba(181, 106, 69, 0.12);
+}
+h1, h2, h3, p, pre { margin: 0; }
+h1 {
+  margin-top: 18px;
+  font-size: clamp(2.5rem, 7vw, 4.8rem);
+  line-height: 0.96;
+}
+h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1;
+}
+h3 { font-size: 1.25rem; }
+p {
+  color: var(--muted);
+  line-height: 1.8;
+}
+.hero p { margin-top: 18px; }
+.meta-grid,
+.entry-grid,
+.detail-grid {
+  display: grid;
+  gap: 18px;
+}
+.meta-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 22px;
+}
+.meta {
+  padding: 18px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.56);
+  border: 1px solid rgba(31, 30, 26, 0.06);
+}
+.meta strong,
+.meta span { display: block; }
+.meta strong { font-size: 1.3rem; }
+.meta span { margin-top: 6px; color: var(--muted); font-size: 0.92rem; }
+.section { padding: 16px 28px 30px; }
+.section + .section { border-top: 1px solid rgba(31, 30, 26, 0.06); }
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(31, 30, 26, 0.08);
+}
+.section-head p { max-width: 38rem; }
+.entry-grid {
+  grid-template-columns: 1fr;
+}
+.entry-card {
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: start;
+}
+.entry-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(72, 52, 40, 0.08);
+}
+.entry-main { min-width: 0; }
+.entry-side {
+  min-width: 180px;
+  text-align: right;
+}
+.tag-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+.tag {
+  display: inline-flex;
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: rgba(181, 106, 69, 0.11);
+  color: #7f4326;
+  font-size: 0.84rem;
+}
+.detail-grid {
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+}
+.contest-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+}
+.stack {
+  display: grid;
+  gap: 18px;
+}
+.code-list {
+  display: grid;
+  gap: 14px;
+}
+.code-nav {
+  display: grid;
+  gap: 12px;
+}
+.code-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(31, 30, 26, 0.06);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.code-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 26px rgba(72, 52, 40, 0.06);
+  border-color: rgba(127, 67, 38, 0.14);
+}
+.code-link-main {
+  min-width: 0;
+}
+.code-link-main strong,
+.code-link-main span {
+  display: block;
+}
+.code-link-main strong {
+  font-size: 1rem;
+  color: var(--ink);
+}
+.code-link-main span {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+.code-link-side {
+  color: #7f4326;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+.code-item {
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.52);
+  border: 1px solid rgba(31, 30, 26, 0.06);
+}
+.code-item h4 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+.hint {
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: rgba(181, 106, 69, 0.08);
+  color: var(--muted);
+}
+.side-panel {
+  position: sticky;
+  top: 100px;
+}
+.note {
+  padding: 4px 0;
+}
+.note h1,
+.note h2,
+.note h3,
+.note h4 {
+  margin-top: 26px;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+.note h1:first-child,
+.note h2:first-child,
+.note h3:first-child,
+.note h4:first-child { margin-top: 0; }
+.note ul {
+  margin: 10px 0 0 1.2rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.note ol {
+  margin: 10px 0 0 1.25rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.note hr {
+  border: 0;
+  border-top: 1px solid rgba(31, 30, 26, 0.1);
+  margin: 24px 0;
+}
+.note blockquote {
+  margin: 14px 0 0;
+  padding: 12px 16px;
+  border-left: 3px solid rgba(181, 106, 69, 0.42);
+  background: rgba(181, 106, 69, 0.06);
+  color: var(--muted);
+}
+.note .math-block {
+  margin-top: 14px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #f6efe7, #f2e8dc);
+  border: 1px solid rgba(95, 124, 127, 0.12);
+  color: #4b5758;
+  overflow: auto;
+  font-family: "Times New Roman", "Georgia", serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  white-space: pre-wrap;
+}
+.note img {
+  max-width: 100%;
+  border-radius: 16px;
+  display: block;
+  margin-top: 14px;
+}
+.note p + p { margin-top: 12px; }
+.note pre,
+.code-block {
+  margin-top: 14px;
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fbf6ef, #f4ebdf);
+  color: #2b2925;
+  border: 1px solid rgba(127, 67, 38, 0.12);
+  overflow: auto;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  font-family: "SFMono-Regular", "Menlo", "Consolas", monospace;
+}
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(31, 30, 26, 0.08);
+}
+.muted { color: var(--muted); }
+.footer {
+  padding: 8px 28px 30px;
+  color: var(--muted);
+  font-size: 0.92rem;
+  border-top: 1px solid rgba(31, 30, 26, 0.06);
+}
+.page-transition {
+  position: fixed;
+  inset: 0;
+  background: rgba(251, 246, 239, 0.82);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s ease;
+  z-index: 20;
+}
+body.is-transitioning .page-transition { opacity: 1; }
+body.is-entering .shell {
+  opacity: 0;
+  transform: translateY(12px);
+}
+body .shell { transition: opacity 0.45s ease, transform 0.45s ease; }
+code {
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: rgba(181, 106, 69, 0.1);
+  font-size: 0.92em;
+}
+pre code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+.MathJax {
+  font-size: 1.02em !important;
+}
+@media (max-width: 920px) {
+  .hero,
+  .entry-grid,
+  .detail-grid,
+  .meta-grid,
+  .contest-grid { grid-template-columns: 1fr; }
+  .entry-card { grid-template-columns: 1fr; }
+  .entry-side {
+    text-align: left;
+    min-width: 0;
+  }
+  .side-panel { position: static; }
+}
+@media (max-width: 720px) {
+  .wrap { width: min(var(--wrap), calc(100vw - 16px)); margin-top: 10px; }
+  .nav, .hero, .section, .footer { padding-left: 18px; padding-right: 18px; }
+  .nav { flex-direction: column; align-items: flex-start; }
+}
+</style>
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <div class="page-transition" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="shell">
+      <header class="nav">
+        <a class="brand" href="../../index.html">
+          <div class="brand-mark">Y</div>
+          <div class="brand-text">
+            <strong>Yunayu ACM</strong>
+            <span>Code & Notes</span>
+          </div>
+        </a>
+        <nav class="nav-links">
+          <a href="../../index.html">Home</a>
+          <a href="../abc.html">Archive</a>
+          <a class="pill" href="../abc.html">Back</a>
+        </nav>
+      </header>
+      
+    <section class="hero">
+      <article class="card">
+        <span class="eyebrow">Contest Detail</span>
+        <h1>AtCoder Beginner Contest 046</h1>
+        <p>yunayu 正在电视上看一场选举结果的快报。此次选举有两款候选游戏：原神和鸣潮。报道中仅展示了两款游戏当前得票数的最简比例，并未显示实际票数。</p>
+        <div class="tag-row">
+          <span class="tag">Contest #046</span>
+          <span class="tag">4 code files</span>
+          <span class="tag">Markdown ready</span>
+        </div>
+      </article>
+      <article class="card">
+        <h3>导航</h3>
+        <p style="margin-top: 14px;">左边是这场比赛对应的整场题解，右边是这一场目前收录到的所有 C++ 代码文件。</p>
+        <div class="tag-row">
+          <a class="tag" href="../abc.html">返回比赛列表</a>
+          <a class="tag" href="../../index.html">返回首页</a>
+        </div>
+      </article>
+    </section>
+    <section class="section">
+      <div class="section-head">
+        <h2>Editorial</h2>
+        <p>这里把整场题解作为主阅读内容来展示，代码不再直接铺在旁边，而是放到页面下方作为补充入口。</p>
+      </div>
+      <article class="card">
+        <div class="toolbar">
+          <h3>Markdown Editorial</h3>
+          <span class="muted">ABC板刷/云遥栈/046.md</span>
+        </div>
+        <div class="note"><h1>AtCoder Beginner Contest 046</h1>
+<hr>
+<h2>C - 原神和鸣潮 (AtCoDeer and Election Report)</h2>
+<h3>Description</h3>
+<p>yunayu 正在电视上看一场选举结果的快报。此次选举有两款候选游戏：原神和鸣潮。报道中仅展示了两款游戏当前得票数的最简比例，并未显示实际票数。</p>
+<p>yunayu 一共看了 $n$ 次报告，当她第 $i$ 次查看时，两款游戏得票的比例是 $T_i:A_i$。已知她在第一次查看报告时，两款候选游戏都至少已获得一票。</p>
+<p>请找出她在第 $n$ 次查看报告时，两款游戏得票总数的最小可能值。可以假设每款候选游戏的得票数永远不会减少（即只会增加或保持不变）。</p>
+<h3>Solution</h3>
+<p>可以想到一个很正确的策略，就是每一轮结束时两人的票数一定分别是她每一轮看到的比例的若干倍，只要我们每一轮都取最小的倍数，那么最终得到的票数也一定是最小的。</p>
+<p>当前票数与当前比例的大小关系可能有很多种，都大于，都小于，或是一大一小，之类的，然而稍加分析可得我们一定要取到的是最小的 $k$，使得比例翻 $k$ 倍后分别都要不小于当前票数。那么本轮结束时最小的票数就一定是这两个翻倍后的比例了。</p>
+<p>那么就是怎么求每一轮的 $k$ 的问题了。二分或者倍增都很好解决，然而一定要用 $log$ 吗……</p>
+<p>是的，每轮变化可以 $O(1)$ 的解决……（<em>写的时候完全没有去想，已心碎</em>）</p>
+<p>我们可以分开看，当我们希望一个数翻若干倍之后不小于一个数的时候，其实可以直接除然后上取整。那么两个数的话就是分别求出最少需要翻的倍数然后取 $max$ 即可。</p>
+<p>不如再推广一下，那么对于一群数而言，我们对所有的结果取 $max$ 同样可以实现目的。</p>
+<p>其实这里的 $max$ 还可以看作是一种取交集的操作，换句话说，只有当所有组成部分都满足条件时，整体才合法。</p>
+<p>虽然不难，但是受益匪浅啊，学到了。给我的感觉和之前一个 $1200$ 很类似，同样是本来可以线性处理，但是我套了二分。当时得知后我也琢磨了很久。虽然是很不起眼的东西，但或许可以在以后的某道题上打开思路。</p>
+<h3>Code</h3>
+<pre><code>void solve() {
+    cin&gt;&gt;n; for(int i=1; i&lt;=n; i++) cin&gt;&gt;u[i]&gt;&gt;v[i];
+    int yu=0, na=0;
+    for(int i=1; i&lt;=n; i++) {
+        int k=max(1LL, max((yu+u[i]-1)/u[i], (na+v[i]-1)/v[i]));
+        yu=k*u[i]; na=k*v[i];
+    }
+    cout&lt;&lt;yu+na&lt;&lt;&#x27;\n&#x27;;
+}</code></pre>
+<hr>
+<h2>D - 石头滚木布 (AtCoDeer and Rock-Paper)</h2>
+<h3>Description</h3>
+<p>优优和娜娜正在玩一个游戏。该游戏共进行 $n$ 回合。在每一回合中，两位玩家都需要像“石头剪刀布”那样出“石头”或“布”中的其中一种手势，但必须满足以下条件：</p>
+<p>每位玩家的得分计算方式为：（玩家获胜的回合数）减去（玩家输掉的回合数）。</p>
+<ul><li>每一回合结束后，（玩家出布的次数）≦（玩家出石头的次数）。</li></ul>
+<blockquote>每一回合的胜负由石头剪刀布的规则决定：<br>- 如果一方出石头，另一方出布，则出布的一方获胜，出石头的一方输。<br>- 如果双方出相同的手势，则为平局，双方均不得分（既不算赢也不算输）</blockquote>
+<p>游戏开始前，优优凭借她的超能力，已经预知了娜娜在接下来 $n$ 回合中每一回合会出的手势。请规划优优在每一回合应该出什么手势，以使她的得分最大化。输出这个得分。</p>
+<h3>Solution</h3>
+<h4>我的思路</h4>
+<p>贪心中非常经典的一个 trick，就是考虑延迟策略能否带来额外收益，而这个 trick 很常见的一个标志就是不同操作带来的收益或亏损相等。</p>
+<h5>感性理解</h5>
+<p>对于本题，感性的理解就是：如果我这回合本来可以出布，但我留着不出，本回合先出石头，后面的某个回合再出布，并不能带来额外的收益。</p>
+<h5>证明</h5>
+<p>因为无论在什么情况下，出布和出石头的收益差都是 1，并且多出一次石头也只能增加一次出布的机会。本回合 -1，后面的某个回合 +1，并不会使得总分增加。</p>
+<p>所以延迟出布不可能带来额外收益，而且反而可能会带来别的问题。比如我多屯了一些出布的次数，但是回合数已经耗尽了，就造成了资源的浪费。</p>
+<p>所以最终的策略就是有布就出。</p>
+<h4>题解的思路</h4>
+<p>题解就相对比较小巧思了，更像是从全局的把握。</p>
+<p>假设优优每次都出石头，那么她的得分就是娜娜出布次数的相反数。而无论优优在哪一回合将出石头改为出布，她的得分都会恰好 +1。</p>
+<p>那么最终就是尽量多出布了，次数也就是回合数除以 2 向下去整。</p>
+<h3>Code</h3>
+<pre><code>void solve() {
+    string s; cin&gt;&gt;s; int cntg=0, cntp=0, __=0;
+    for(auto &amp;c: s) {
+        if(cntg&gt;cntp) {
+            if(c==&#x27;g&#x27;) __++; cntp++;
+        }
+        else {
+            if(c==&#x27;p&#x27;) __--; cntg++;
+        }
+    }
+    cout&lt;&lt;__&lt;&lt;&#x27;\n&#x27;;
+}</code></pre>
+<hr>
+<blockquote><strong>云遥栈</strong>｜“<em>日拱一卒，功不唐捐。</em>”</blockquote></div>
+      </article>
+    </section>
+    <section class="section">
+      <div class="section-head">
+        <h2>Code Index</h2>
+        <p>如果你想看具体实现，可以从这里进入每一题的独立代码页。这样比赛页会更专注于题解本身。</p>
+      </div>
+      <article class="card">
+        <div class="toolbar">
+          <h3>C++ Files</h3>
+          <span class="muted">4 files</span>
+        </div>
+        <div class="code-nav">
+                <a class="code-link" href="../contest-code/046-abc046a.html">
+                  <div class="code-link-main">
+                    <strong>abc046a.cpp</strong>
+                    <span>A - AtCoDeer and Paint Cans</span>
+                  </div>
+                  <div class="code-link-side">查看代码 →</div>
+                </a>
+                
+                <a class="code-link" href="../contest-code/046-abc046b.html">
+                  <div class="code-link-main">
+                    <strong>abc046b.cpp</strong>
+                    <span>B - Painting Balls with AtCoDeer</span>
+                  </div>
+                  <div class="code-link-side">查看代码 →</div>
+                </a>
+                
+                <a class="code-link" href="../contest-code/046-arc062a.html">
+                  <div class="code-link-main">
+                    <strong>arc062a.cpp</strong>
+                    <span>C - AtCoDeer and Election Report</span>
+                  </div>
+                  <div class="code-link-side">查看代码 →</div>
+                </a>
+                
+                <a class="code-link" href="../contest-code/046-arc062b.html">
+                  <div class="code-link-main">
+                    <strong>arc062b.cpp</strong>
+                    <span>D - AtCoDeer and Rock-Paper</span>
+                  </div>
+                  <div class="code-link-side">查看代码 →</div>
+                </a>
+                </div>
+      </article>
+    </section>
+    
+      <footer class="footer">Static archive for ACM solutions and markdown editorials.</footer>
+    </div>
+  </div>
+  <script>
+    document.body.classList.add("is-entering");
+    window.requestAnimationFrame(() => {
+      document.body.classList.remove("is-entering");
+    });
+
+    const internalLinks = Array.from(document.querySelectorAll('a[href]')).filter((link) => {
+      const href = link.getAttribute("href");
+      return href && !href.startsWith("#") && !href.startsWith("http") && !link.hasAttribute("download");
+    });
+
+    internalLinks.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        document.body.classList.add("is-transitioning");
+        window.setTimeout(() => {
+          window.location.href = link.href;
+        }, 180);
+      });
+    });
+  </script>
+</body>
+</html>
