@@ -403,6 +403,10 @@ pre code {
   .meta-grid,
   .contest-grid { grid-template-columns: 1fr; }
   .entry-card { grid-template-columns: 1fr; }
+  .code-link {
+    align-items: flex-start;
+    flex-direction: column;
+  }
   .entry-side {
     text-align: left;
     min-width: 0;
@@ -413,6 +417,118 @@ pre code {
   .wrap { width: min(var(--wrap), calc(100vw - 16px)); margin-top: 10px; }
   .nav, .hero, .section, .footer { padding-left: 18px; padding-right: 18px; }
   .nav { flex-direction: column; align-items: flex-start; }
+  .nav-links {
+    width: 100%;
+    gap: 10px;
+  }
+  .nav-links a {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.48);
+  }
+  .pill {
+    text-align: center;
+  }
+  .shell {
+    border-radius: 24px;
+  }
+  .card {
+    padding: 18px;
+    border-radius: 20px;
+  }
+  h1 {
+    margin-top: 14px;
+    font-size: clamp(2rem, 10vw, 3rem);
+    line-height: 1;
+  }
+  h2 {
+    font-size: clamp(1.45rem, 7vw, 2rem);
+  }
+  h3 {
+    font-size: 1.08rem;
+  }
+  p {
+    font-size: 0.96rem;
+  }
+  .meta {
+    padding: 16px;
+  }
+  .section {
+    padding-top: 14px;
+    padding-bottom: 24px;
+  }
+  .section-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+  }
+  .section-head p {
+    max-width: none;
+  }
+  .toolbar {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .tag-row {
+    gap: 8px;
+  }
+  .tag {
+    font-size: 0.8rem;
+  }
+  .note pre,
+  .code-block,
+  .note .math-block {
+    margin-left: -4px;
+    margin-right: -4px;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 0.86rem;
+  }
+  .note img {
+    border-radius: 12px;
+  }
+  .code-link {
+    padding: 14px;
+    gap: 10px;
+  }
+  .code-link-main strong {
+    font-size: 0.96rem;
+  }
+  .code-link-main span,
+  .code-link-side,
+  .muted {
+    font-size: 0.88rem;
+  }
+}
+@media (max-width: 420px) {
+  .wrap {
+    width: min(var(--wrap), calc(100vw - 10px));
+  }
+  .nav, .hero, .section, .footer {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+  }
+  .brand-text strong {
+    font-size: 0.92rem;
+  }
+  .brand-text span {
+    font-size: 0.72rem;
+  }
+  .card {
+    padding: 16px;
+  }
+  h1 {
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
+  }
 }
 </style>
   <script>
